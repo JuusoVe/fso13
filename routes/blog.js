@@ -37,4 +37,20 @@ router.delete('/blogs/:id', async (req, res) => {
     }
 })
 
+router.put('/blogs/:id', async (req, res) => {
+    try {
+        const blog = await Blog.findByPk(req.params.id)
+        if (!blog) {
+            res.status(404).end()
+        }
+        blog.likes = req.body.likes
+        await blog.save()
+        res.json(blog)
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(400).json({ err })
+    }
+})
+
 export default router
