@@ -1,11 +1,10 @@
 import { Router } from 'express'
-import { Blog } from './index.js'
+import { Blog } from '../models/blog.js'
 
 const router = Router()
 
-router.get('/blogs', async (req, res) => {
+router.get('/blogs', async (_req, res) => {
     try {
-        console.log(req.body)
         const blogs = await Blog.findAll()
         return res.json(blogs)
     } catch (err) {
@@ -16,8 +15,6 @@ router.get('/blogs', async (req, res) => {
 
 router.post('/blogs', async (req, res) => {
     try {
-        console.log('req body:')
-        console.log(req.body)
         const blog = await Blog.create(req.body)
         return res.json(blog)
     } catch (err) {

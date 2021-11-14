@@ -1,1 +1,6 @@
 heroku cli vaatii nimeämään projektin kohdan 1 aluksi jos on useampia olemassa. eli komentojen loppuun -a heroku-projekti-123456
+
+
+Tunnit:
+la 13.11. 2h
+su 14.11. 5h
