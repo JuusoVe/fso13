@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const tokenExtractor = require('../middleware/tokenExtractor')
 const { User, Blog, ReadingList } = require('../models/index')
 
 const router = Router()
@@ -13,8 +14,20 @@ router.get('/users', async (_req, res) => {
     return res.json(users)
 })
 
-router.get('/users/:id', async (req, res) => {
-    const user = await User.findOne({
+router.get('/users/:id', tokenExtractor, async (req, res) => {
+    if (parseInt(req.params.id) !== parseInt(req.decodedToken.id)) {
+        return res.status(403).end()
+    }
+    const read = req.query.read
+    const readIsValid = read === ('true' || false)
+    if (!readIsValid) {
+        return res.status(400).end()
+    }
+    const readConditionObject = req.query.read
+        ? { where: { isRead: req.query.read === 'true' } }
+        : {}
+
+    const queryObject = {
         where: {
             id: req.params.id,
         },
@@ -25,10 +38,13 @@ router.get('/users/:id', async (req, res) => {
                 attributes: ['id', 'author', 'title', 'likes', 'year', 'url'],
                 through: {
                     attributes: ['isRead', 'id'],
+                    ...readConditionObject,
                 },
             },
         ],
-    })
+    }
+
+    const user = await User.findOne(queryObject)
     res.json(user)
 })
 
