@@ -31,11 +31,22 @@ Blog.init(
             allowNull: false,
             references: { model: 'users', key: 'id' },
         },
+        year: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isValidYear(year) {
+                    if (year < 1991 || year > new Date().getFullYear()) {
+                        throw new Error('Not a valid year.')
+                    }
+                },
+            },
+        },
     },
     {
         sequelize: sequelizeInstance,
         underscored: true,
-        timestamps: false,
+        timestamps: true,
         modelName: 'blog',
     }
 )
