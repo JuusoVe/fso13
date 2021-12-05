@@ -1,18 +1,14 @@
 const { Sequelize } = require('sequelize')
 const { DATABASE_URL } = require('./config')
-const { initBlog } = require('../models/blog')
 
-const initSequelizeInstance = () => {
-    const sequelizeInstance = new Sequelize(DATABASE_URL, {
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
-            },
+const sequelizeInstance = new Sequelize(DATABASE_URL, {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
         },
-    })
-    return sequelizeInstance
-}
+    },
+})
 
 const connectDB = async (sequelizeInstance) => {
     try {
@@ -26,7 +22,6 @@ const connectDB = async (sequelizeInstance) => {
 const initDB = async () => {
     const sequelizeInstance = initSequelizeInstance()
     await connectDB(sequelizeInstance)
-    await initBlog(sequelizeInstance)
 }
 
-module.exports = initDB
+module.exports = { initDB, sequelizeInstance }
