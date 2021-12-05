@@ -58,7 +58,7 @@ router.delete('/blogs/:id', async (req, res) => {
 router.put('/blogs/:id', async (req, res) => {
     const blog = await Blog.findByPk(req.params.id)
     if (!blog) {
-        res.status(404).end()
+        return res.status(404).end()
     } else {
         blog.likes = req.body.likes
         await blog.save()
