@@ -20,7 +20,6 @@ const connectDB = async (sequelizeInstance) => {
 }
 
 const initDB = async () => {
-    const sequelizeInstance = initSequelizeInstance()
     await connectDB(sequelizeInstance)
 }
 
