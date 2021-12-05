@@ -4,7 +4,7 @@ const { Session } = require('../models/session')
 const requireAuth = require('../middleware/requireAuth')
 const router = Router()
 
-router.DELETE('/logout', requireAuth, async (req, res) => {
+router.delete('/logout', requireAuth, async (req, res) => {
     const user = await User.findOne({
         where: { id: req.decodedToken.id },
     })
