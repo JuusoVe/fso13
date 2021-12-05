@@ -1,5 +1,6 @@
-import dotenv from 'dotenv'
-dotenv.config()
+require('dotenv').config()
 
-export const DATABASE_URL = process.env.DATABASE_URL
-export const PORT = process.env.PORT || 3001
+const DATABASE_URL = process.env.DATABASE_URL
+const PORT = process.env.PORT || 3001
+
+module.exports = { DATABASE_URL, PORT }

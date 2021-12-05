@@ -1,9 +1,8 @@
-import sequelizePackage from 'sequelize'
-import { DATABASE_URL } from './config.js'
+const { Sequelize } = require('sequelize')
+const { DATABASE_URL } = require('./config')
+const { initBlog } = require('../models/blog')
 
-const { Sequelize } = sequelizePackage
-
-export const initSequelizeInstance = () => {
+const initSequelizeInstance = () => {
     const sequelizeInstance = new Sequelize(DATABASE_URL, {
         dialectOptions: {
             ssl: {
@@ -15,7 +14,7 @@ export const initSequelizeInstance = () => {
     return sequelizeInstance
 }
 
-export const connectDB = async (sequelizeInstance) => {
+const connectDB = async (sequelizeInstance) => {
     try {
         await sequelizeInstance.authenticate()
         console.log('Connection has been established successfully.')
@@ -23,3 +22,11 @@ export const connectDB = async (sequelizeInstance) => {
         console.error('Unable to connect to the database:', error)
     }
 }
+
+const initDB = async () => {
+    const sequelizeInstance = initSequelizeInstance()
+    await connectDB(sequelizeInstance)
+    await initBlog(sequelizeInstance)
+}
+
+module.exports = initDB

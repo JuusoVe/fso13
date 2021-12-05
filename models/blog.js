@@ -1,9 +1,8 @@
-import sequelizePackage from 'sequelize'
-const { Model, DataTypes } = sequelizePackage
+const { Model, DataTypes } = require('sequelize')
 
-export class Blog extends Model {}
+class Blog extends Model {}
 
-export const initBlog = async (sequelizeInstance) => {
+const initBlog = async (sequelizeInstance) => {
     Blog.init(
         {
             id: {
@@ -41,3 +40,5 @@ export const initBlog = async (sequelizeInstance) => {
         console.log(err)
     }
 }
+
+module.exports = { Blog, initBlog }
