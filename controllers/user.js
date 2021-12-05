@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const tokenExtractor = require('../middleware/tokenExtractor')
-const { User, Blog, ReadingList } = require('../models/index')
+const requireAuth = require('../middleware/requireAuth')
+const { User, Blog } = require('../models/index')
 
 const router = Router()
 
@@ -14,7 +14,7 @@ router.get('/users', async (_req, res) => {
     return res.json(users)
 })
 
-router.get('/users/:id', tokenExtractor, async (req, res) => {
+router.get('/users/:id', requireAuth, async (req, res) => {
     if (parseInt(req.params.id) !== parseInt(req.decodedToken.id)) {
         return res.status(403).end()
     }

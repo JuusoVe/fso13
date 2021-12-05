@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const tokenExtractor = require('../middleware/tokenExtractor')
+const requireAuth = require('../middleware/requireAuth')
 const { ReadingList } = require('../models/index')
 
 const router = Router()
@@ -13,7 +13,7 @@ router.post('/readinglists', async (req, res) => {
     return res.json(readingList)
 })
 
-router.put('/readinglists/:id', tokenExtractor, async (req, res) => {
+router.put('/readinglists/:id', requireAuth, async (req, res) => {
     const readingList = await ReadingList.findByPk(req.params.id)
     if (!readingList) {
         return res.status(404).end()
